@@ -247,7 +247,7 @@ def read_load(i2c_bus):
 
 def read_register(i2c_bus, register):
     if isinstance(register, str):
-        register = register_address[address]
+        register = register_address[register]
     if isinstance(register, int):
         pass
     else:
