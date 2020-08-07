@@ -256,7 +256,7 @@ def read_register(i2c_bus, register):
 
 def set_register(i2c_bus, register,  register_value):
     if isinstance(register, str):
-        register = register_address[address]
+        register = register_address[register]
     if isinstance(register, int):
         pass
     else:
