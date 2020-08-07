@@ -228,6 +228,8 @@ def boot_cycle(i2c_bus):
     power_digital(i2c_bus)
     sleep(0.001)
     power_analog(i2c_bus)
+    sleep(0.001)
+    start_reading_data(i2c_bus, True)
 
 def readOffset(i2c_bus,  channel = 1):
     pass
