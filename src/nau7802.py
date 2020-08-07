@@ -240,6 +240,7 @@ def readGOffset(i2c_bus,  channel = 1):
 
 def read_load(i2c_bus):
     load_data = i2c_bus.read_i2c_block_data(sensor_address, register_address['ADC_RESULT'], 3)
+    print(load_data)
     reading = 0
     # setting up the twos complement for the 24 bit data
     if load_data[0] << 7 & 1:
