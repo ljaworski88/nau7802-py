@@ -1,5 +1,6 @@
 from smbus2 import SMBus, i2c_msg
 from ctypes import c_int32
+from time import sleep
 
 sensor_address = 0x2A
 
