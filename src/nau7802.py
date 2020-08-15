@@ -22,7 +22,7 @@ register_address = {'PU_CTRL'     : 0x00,
                     'PGA_REG'     : 0x1B,
                     'PWR_CTRL'    : 0x1C}
 
-def select_AVDD_source(i2c_bus, internal_source=False):
+def select_avdd_source(i2c_bus, internal_source=False):
     curent_register_val = read_register(i2c_bus, 'PU_CTRL')
     new_register_val = (curent_register_val & 0b01111111) | (internal_source << 7)
     set_register(i2c_bus, 'PU_CTRL', new_register_val)
@@ -230,7 +230,6 @@ def boot_cycle(i2c_bus):
     sleep(0.001)
     power_analog(i2c_bus)
     sleep(0.001)
-    start_reading_data(i2c_bus, True)
 
 def readOffset(i2c_bus,  channel = 1):
     pass
@@ -240,10 +239,9 @@ def readGOffset(i2c_bus,  channel = 1):
 
 def read_load(i2c_bus):
     load_data = i2c_bus.read_i2c_block_data(sensor_address, register_address['ADC_RESULT'], 3)
-    print(load_data)
     reading = 0
     # setting up the twos complement for the 24 bit data
-    if load_data[0] << 7 & 1:
+    if load_data[0] >> 7 & 1:
         reading = 0xFF
     for byte in load_data:
         reading = reading << 8 | byte
