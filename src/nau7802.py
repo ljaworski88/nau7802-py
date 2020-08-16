@@ -92,7 +92,7 @@ def set_avdd_voltage(i2c_bus, voltage):
     if isinstance(voltage_select, int):
         pass
     curent_register_val = read_register(i2c_bus, 'CTRL1')
-    new_register_val = (curent_register_val & 0b11000111) | (start << 4)
+    new_register_val = (curent_register_val & 0b11000111) | (voltage << 4)
     set_register(i2c_bus, 'CTRL1', new_register_val)
 
 def set_channel(i2c_bus,  channel):
