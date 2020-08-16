@@ -11,7 +11,8 @@ sleep(1)
 set_avdd_voltage(bus, '3.0v')
 select_avdd_source(bus, internal_source=True)
 set_conversion_rate(bus, conversion_rate='sps10')
-start_reading_data(bus, start=True):
+start_reading_data(bus, start=True)
+set_gain(bus, 'x1')
 
 while True:
     system('clear')
