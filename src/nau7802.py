@@ -74,7 +74,7 @@ def set_gain(i2c_bus, gain):
     if isinstance(gain, int):
         pass
     curent_register_val = read_register(i2c_bus, 'CTRL1')
-    new_register_val = (curent_register_val & 0b11111000) | (start << 4)
+    new_register_val = (curent_register_val & 0b11111000) | (gain)
     set_register(i2c_bus, 'CTRL1', new_register_val)
 
 
@@ -87,12 +87,12 @@ def set_avdd_voltage(i2c_bus, voltage):
                        '3.0v' : 0b101,
                        '2.7v' : 0b110,
                        '2.4v' : 0b111}
-    if isinstance(voltage_select, str):
+    if isinstance(voltage, str):
         voltage = voltage_select[voltage]
-    if isinstance(voltage_select, int):
+    if isinstance(voltage, int):
         pass
     curent_register_val = read_register(i2c_bus, 'CTRL1')
-    new_register_val = (curent_register_val & 0b11000111) | (voltage << 4)
+    new_register_val = (curent_register_val & 0b11000111) | (voltage << 3)
     set_register(i2c_bus, 'CTRL1', new_register_val)
 
 def set_channel(i2c_bus,  channel):
