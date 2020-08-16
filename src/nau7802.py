@@ -108,7 +108,7 @@ def set_conversion_rate(i2c_bus, conversion_rate):
                    'sps320' : 0b111}
     if isinstance(conversion_rate, str):
         conversion_rate = sample_rate[conversion_rate]
-    if isinstance(gain, int):
+    if isinstance(conversion_rate, int):
         pass
     curent_register_val = read_register(i2c_bus, 'CTRL2')
     new_register_val = (curent_register_val & 0b10001111) | (conversion_rate << 4)
@@ -118,12 +118,12 @@ def set_calibration_mode(i2c_bus, calibration_mode):
     cal_type  = {'internal' : 0b00,
                  'offset'   : 0b10,
                  'gain'     : 0b11}
-    if isinstance(conversion_rate, str):
+    if isinstance(calibration_mode, str):
         calibration_mode = sample_rate[calibration_mode]
-    if isinstance(gain, int):
+    if isinstance(calibration_mode, int):
         pass
     curent_register_val = read_register(i2c_bus, 'CTRL2')
-    new_register_val = (curent_register_val & 0b11111100) | (calibration_mode << 4)
+    new_register_val = (curent_register_val & 0b11111100) | (calibration_mode)
     set_register(i2c_bus, 'CTRL2', new_register_val)
 
 
