@@ -23,31 +23,31 @@ register_address = {'PU_CTRL'     : 0x00,
                     'PWR_CTRL'    : 0x1C}
 
 def select_avdd_source(i2c_bus, internal_source=False):
-    curent_register_val = read_register(i2c_bus, 'PU_CTRL')
-    new_register_val = (curent_register_val & 0b01111111) | (internal_source << 7)
+    current_register_val = read_register(i2c_bus, 'PU_CTRL')
+    new_register_val = (current_register_val & 0b01111111) | (internal_source << 7)
     set_register(i2c_bus, 'PU_CTRL', new_register_val)
 
 def selectClockSource(i2c_bus,  internal_source = True):
     pass
 
 def start_reading_data(i2c_bus, start=True):
-    curent_register_val = read_register(i2c_bus, 'PU_CTRL')
-    new_register_val = (curent_register_val & 0b11101111) | (start << 4)
+    current_register_val = read_register(i2c_bus, 'PU_CTRL')
+    new_register_val = (current_register_val & 0b11101111) | (start << 4)
     set_register(i2c_bus, 'PU_CTRL', new_register_val)
 
 def power_analog(i2c_bus, power_up=True):
-    curent_register_val = read_register(i2c_bus, 'PU_CTRL')
-    new_register_val = (curent_register_val & 0b11111011) | (power_up << 2)
+    current_register_val = read_register(i2c_bus, 'PU_CTRL')
+    new_register_val = (current_register_val & 0b11111011) | (power_up << 2)
     set_register(i2c_bus, 'PU_CTRL', new_register_val)
 
 def power_digital(i2c_bus, power_up=True):
-    curent_register_val = read_register(i2c_bus, 'PU_CTRL')
-    new_register_val = (curent_register_val & 0b11111101) | (power_up << 1)
+    current_register_val = read_register(i2c_bus, 'PU_CTRL')
+    new_register_val = (current_register_val & 0b11111101) | (power_up << 1)
     set_register(i2c_bus, 'PU_CTRL', new_register_val)
 
 def register_reset(i2c_bus, reset=True):
-    curent_register_val = read_register(i2c_bus, 'PU_CTRL')
-    new_register_val = (curent_register_val & 0b11111110) | (reset)
+    current_register_val = read_register(i2c_bus, 'PU_CTRL')
+    new_register_val = (current_register_val & 0b11111110) | (reset)
     print(new_register_val)
     set_register(i2c_bus, 'PU_CTRL', new_register_val)
 
@@ -55,7 +55,11 @@ def checkPowerUp(i2c_bus):
     pass
 
 def checkDataReady(i2c_bus):
-    pass
+    current_register_val = read_register(i2c_bus, 'PU_CTRL')
+    if (current_register_val >> 5) & 1:
+        return True
+    else:
+        return False
 
 def setRDYpinPolarity(i2c_bus,  activeHigh = True):
     pass
@@ -73,8 +77,8 @@ def set_gain(i2c_bus, gain):
         gain = gain_select[gain]
     if isinstance(gain, int):
         pass
-    curent_register_val = read_register(i2c_bus, 'CTRL1')
-    new_register_val = (curent_register_val & 0b11111000) | (gain)
+    current_register_val = read_register(i2c_bus, 'CTRL1')
+    new_register_val = (current_register_val & 0b11111000) | (gain)
     set_register(i2c_bus, 'CTRL1', new_register_val)
 
 
@@ -91,13 +95,13 @@ def set_avdd_voltage(i2c_bus, voltage):
         voltage = voltage_select[voltage]
     if isinstance(voltage, int):
         pass
-    curent_register_val = read_register(i2c_bus, 'CTRL1')
-    new_register_val = (curent_register_val & 0b11000111) | (voltage << 3)
+    current_register_val = read_register(i2c_bus, 'CTRL1')
+    new_register_val = (current_register_val & 0b11000111) | (voltage << 3)
     set_register(i2c_bus, 'CTRL1', new_register_val)
 
 def set_channel(i2c_bus,  channel):
-    curent_register_val = read_register(i2c_bus, 'CTRL2')
-    new_register_val = (curent_register_val & 0b01111111) | (channel << 7)
+    current_register_val = read_register(i2c_bus, 'CTRL2')
+    new_register_val = (current_register_val & 0b01111111) | (channel << 7)
     set_register(i2c_bus, 'CTRL2', new_register_val)
 
 def set_conversion_rate(i2c_bus, conversion_rate):
@@ -110,8 +114,8 @@ def set_conversion_rate(i2c_bus, conversion_rate):
         conversion_rate = sample_rate[conversion_rate]
     if isinstance(conversion_rate, int):
         pass
-    curent_register_val = read_register(i2c_bus, 'CTRL2')
-    new_register_val = (curent_register_val & 0b10001111) | (conversion_rate << 4)
+    current_register_val = read_register(i2c_bus, 'CTRL2')
+    new_register_val = (current_register_val & 0b10001111) | (conversion_rate << 4)
     set_register(i2c_bus, 'CTRL2', new_register_val)
 
 def set_calibration_mode(i2c_bus, calibration_mode):
@@ -122,27 +126,27 @@ def set_calibration_mode(i2c_bus, calibration_mode):
         calibration_mode = sample_rate[calibration_mode]
     if isinstance(calibration_mode, int):
         pass
-    curent_register_val = read_register(i2c_bus, 'CTRL2')
-    new_register_val = (curent_register_val & 0b11111100) | (calibration_mode)
+    current_register_val = read_register(i2c_bus, 'CTRL2')
+    new_register_val = (current_register_val & 0b11111100) | (calibration_mode)
     set_register(i2c_bus, 'CTRL2', new_register_val)
 
 
 def calibrate(i2c_bus):
-    curent_register_val = read_register(i2c_bus, 'CTRL2')
-    new_register_val = (curent_register_val & 0b11111011) | (calibration_mode << 4)
+    current_register_val = read_register(i2c_bus, 'CTRL2')
+    new_register_val = (current_register_val & 0b11111011) | (calibration_mode << 4)
     set_register(i2c_bus, 'CTRL2', new_register_val)
     while read_register(i2c_bus, 'CTRL2') >> 2 & 1:
         pass
     return bool(read_register(i2c_bus, 'CTRL2') >> 3 & 1)
 
 def set_sda_conversion_ready(i2c_bus, sda_interrupt=False):
-    curent_register_val = read_register(i2c_bus, 'I2C_CTRL')
-    new_register_val = (curent_register_val & 0b01111111) | (sda_interrupt << 7)
+    current_register_val = read_register(i2c_bus, 'I2C_CTRL')
+    new_register_val = (current_register_val & 0b01111111) | (sda_interrupt << 7)
     set_register(i2c_bus, 'I2C_CTRL', new_register_val)
 
 def set_fast_read(i2c_bus, fast_read=False):
-    curent_register_val = read_register(i2c_bus, 'I2C_CTRL')
-    new_register_val = (curent_register_val & 0b10111111) | (sda_interrupt << 6)
+    current_register_val = read_register(i2c_bus, 'I2C_CTRL')
+    new_register_val = (current_register_val & 0b10111111) | (sda_interrupt << 6)
     set_register(i2c_bus, 'I2C_CTRL', new_register_val)
 
 def i2c_pullup(i2c_bus, pullup_mode):
@@ -153,33 +157,33 @@ def i2c_pullup(i2c_bus, pullup_mode):
         pullup_mode = pullup[pullup_mode]
     if isinstance(gain, int):
         pass
-    curent_register_val = read_register(i2c_bus, 'I2C_CTRL')
-    new_register_val = (curent_register_val & 0b11001111) | (pullup_mode << 4)
+    current_register_val = read_register(i2c_bus, 'I2C_CTRL')
+    new_register_val = (current_register_val & 0b11001111) | (pullup_mode << 4)
     set_register(i2c_bus, 'I2C_CTRL', new_register_val)
 
 def short_input(i2c_bus, input_shorted=False):
-    curent_register_val = read_register(i2c_bus, 'I2C_CTRL')
-    new_register_val = (curent_register_val & 0b11110111) | (input_shorted << 3)
+    current_register_val = read_register(i2c_bus, 'I2C_CTRL')
+    new_register_val = (current_register_val & 0b11110111) | (input_shorted << 3)
     set_register(i2c_bus, 'I2C_CTRL', new_register_val)
 
 def set_burnout_current(i2c_bus, burnout_activated=False):
-    curent_register_val = read_register(i2c_bus, 'I2C_CTRL')
-    new_register_val = (curent_register_val & 0b11111011) | (burnout_activated << 2)
+    current_register_val = read_register(i2c_bus, 'I2C_CTRL')
+    new_register_val = (current_register_val & 0b11111011) | (burnout_activated << 2)
     set_register(i2c_bus, 'I2C_CTRL', new_register_val)
 
 def set_read_temperature(i2c_bus, read_temperature=False):
-    curent_register_val = read_register(i2c_bus, 'I2C_CTRL')
-    new_register_val = (curent_register_val & 0b11111101) | (read_temperature << 1)
+    current_register_val = read_register(i2c_bus, 'I2C_CTRL')
+    new_register_val = (current_register_val & 0b11111101) | (read_temperature << 1)
     set_register(i2c_bus, 'I2C_CTRL', new_register_val)
 
 def set_bandgap_chopper(i2c_bus, activate_chopper=True):
-    curent_register_val = read_register(i2c_bus, 'I2C_CTRL')
-    new_register_val = (curent_register_val & 0b11111110) | (activate_chopper)
+    current_register_val = read_register(i2c_bus, 'I2C_CTRL')
+    new_register_val = (current_register_val & 0b11111110) | (activate_chopper)
     set_register(i2c_bus, 'I2C_CTRL', new_register_val)
 
 # def set_clock_frequency(i2c_bus, frequency):
-    # curent_register_val = read_register(i2c_bus, 'ADC_REG')
-    # new_register_val = (curent_register_val & 0b11111110) | (activate_chopper)
+    # current_register_val = read_register(i2c_bus, 'ADC_REG')
+    # new_register_val = (current_register_val & 0b11111110) | (activate_chopper)
     # set_register(i2c_bus, 'I2C_CTRL', new_register_val)
 
 def setCommonMode(i2c_bus):
