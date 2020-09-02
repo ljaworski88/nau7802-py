@@ -48,7 +48,6 @@ def power_digital(i2c_bus, power_up=True):
 def register_reset(i2c_bus, reset=True):
     current_register_val = read_register(i2c_bus, 'PU_CTRL')
     new_register_val = (current_register_val & 0b11111110) | (reset)
-    print(new_register_val)
     set_register(i2c_bus, 'PU_CTRL', new_register_val)
 
 def checkPowerUp(i2c_bus):
