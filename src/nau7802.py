@@ -200,17 +200,25 @@ def setLDOmode(i2c_bus,  highESR):
 def setPGAoutputBuffer(i2c_bus):
     pass
 
-def setPGAbypass(i2c_bus):
-    pass
+def setPGAbypass(i2c_bus, bypass_pga=False):
+    current_register_val = read_register(i2c_bus, 'PGA_REG')
+    new_register_val = (current_register_val & 0b11101111) | (bypass_pga << 4)
+    set_register(i2c_bus, 'PGA_REG', new_register_val)
 
-def setPGAinputInversion(i2c_bus,  input_inversion=True):
-    pass
+def setPGAinputInversion(i2c_bus,  input_inversion=False):
+    current_register_val = read_register(i2c_bus, 'PGA_REG')
+    new_register_val = (current_register_val & 0b11110111) | (input_inversion << 3)
+    set_register(i2c_bus, 'PGA_REG', new_register_val)
 
-def setPGAchopper(i2c_bus,  pga_choper=False):
-    pass
+def setPGAchopper(i2c_bus,  pga_chopper=False):
+    current_register_val = read_register(i2c_bus, 'PGA_REG')
+    new_register_val = (current_register_val & 0b11111110) | (pga_chopper)
+    set_register(i2c_bus, 'PGA_REG', new_register_val)
 
-def setPGAbypassCAP(i2c_bus,  pga_bypass_cap=True):
-    pass
+def setPGAbypassCAP(i2c_bus,  pga_bypass_cap=False):
+    current_register_val = read_register(i2c_bus, 'PWR_CTRL')
+    new_register_val = (current_register_val & 0b01111111) | (pga_bypass_cap << 7)
+    set_register(i2c_bus, 'PWR_CTRL', new_register_val)
 
 def setMasterBiasCurrent(i2c_bus,  current):
     pass
